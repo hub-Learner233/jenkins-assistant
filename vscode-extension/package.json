@@ -1,0 +1,64 @@
+{
+  "name": "jenkins-assistant",
+  "displayName": "Jenkins 助手",
+  "description": "在 VS Code 中拉取 Jenkins job 信息、触发构建、分析优化方向",
+  "version": "0.1.0",
+  "publisher": "local",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": ["Other", "SCM Providers"],
+  "activationEvents": [],
+  "main": "./out/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "jenkins-assistant",
+          "title": "Jenkins",
+          "icon": "resources/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "jenkins-assistant": [
+        {
+          "id": "jenkinsJobs",
+          "name": "Jobs",
+          "contextualTitle": "Jenkins Jobs"
+        }
+      ]
+    },
+    "commands": [
+      { "command": "jenkins.configure", "title": "配置连接", "category": "Jenkins" },
+      { "command": "jenkins.refreshJobs", "title": "刷新 Job 列表", "category": "Jenkins", "icon": "$(refresh)" },
+      { "command": "jenkins.triggerJob", "title": "触发构建", "category": "Jenkins", "icon": "$(play)" },
+      { "command": "jenkins.analyzeJob", "title": "分析优化建议", "category": "Jenkins", "icon": "$(graph)" },
+      { "command": "jenkins.showJobInfo", "title": "查看详情", "category": "Jenkins", "icon": "$(info)" },
+      { "command": "jenkins.openInBrowser", "title": "在浏览器中打开", "category": "Jenkins", "icon": "$(globe)" }
+    ],
+    "menus": {
+      "view/title": [
+        { "command": "jenkins.refreshJobs", "when": "view == jenkinsJobs", "group": "navigation" },
+        { "command": "jenkins.configure", "when": "view == jenkinsJobs", "group": "navigation@1" }
+      ],
+      "view/item/context": [
+        { "command": "jenkins.triggerJob", "when": "view == jenkinsJobs", "group": "1_action" },
+        { "command": "jenkins.analyzeJob", "when": "view == jenkinsJobs", "group": "1_action" },
+        { "command": "jenkins.showJobInfo", "when": "view == jenkinsJobs", "group": "2_info" },
+        { "command": "jenkins.openInBrowser", "when": "view == jenkinsJobs", "group": "2_info" }
+      ]
+    }
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "vscode:prepublish": "npm run compile"
+  },
+  "devDependencies": {
+    "@types/node": "^20.x",
+    "@types/vscode": "^1.90.0",
+    "typescript": "^5.4.0"
+  }
+}
